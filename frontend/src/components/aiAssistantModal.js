@@ -20,7 +20,7 @@ export const AIAssistantModal = ({ isOpen, onClose, allOrders, t }) => {
         const systemPrompt = `You are an AI assistant for LabPortal, a laboratory information system. Your name is 'Lara'. You have access to a list of recent orders in JSON format. Your primary job is to answer questions based *only* on this data. Be concise and helpful. Today's date is September 18, 2025. Do not make up information. If the data to answer a question is not present, say that you cannot answer. Do not mention the JSON data format to the user. Just use the data to answer questions.`;
         const contextData = allOrders.map(o => ({ id: o.id, patient: o.patient, status: o.status, date: o.date, amount: o.amount, paymentStatus: o.paymentStatus, critical: o.needsAcknowledgement }));
         const userQuery = `Here is the current list of orders: ${JSON.stringify(contextData)}\n\nMy question is: ${currentQuery}`;
-        const apiKey = "";
+        const apiKey = process.env.REACT_APP_GEMINI_API_KEY || "";
         const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
         const payload = {
             contents: [{ parts: [{ text: userQuery }] }],
